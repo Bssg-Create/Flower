@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flower 花卉销售管理系统 - 前端效果图</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; background: #f5f7fa; color: #333; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+/* Tabs */
+.tabs { display: flex; gap: 4px; background: #fff; border-radius: 8px 8px 0 0; padding: 8px 8px 0; box-shadow: 0 1px 4px rgba(0,0,0,.08); flex-wrap: wrap; }
+.tab { padding: 10px 20px; border: none; background: #e8edf2; border-radius: 6px 6px 0 0; cursor: pointer; font-size: 14px; color: #606266; transition: .2s; }
+.tab:hover { background: #d9e1e8; color: #409eff; }
+.tab.active { background: #409eff; color: #fff; }
+
+/* Page container */
+.page { display: none; background: #fff; border-radius: 0 0 8px 8px; box-shadow: 0 2px 8px rgba(0,0,0,.08); min-height: 600px; padding: 24px; }
+.page.active { display: block; }
+
+/* Common components */
+.header-bar { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #ebeef5; margin-bottom: 20px; }
+.header-bar h2 { font-size: 20px; color: #303133; }
+.btn { display: inline-block; padding: 8px 20px; border: none; border-radius: 4px; font-size: 14px; cursor: pointer; transition: .2s; text-decoration: none; }
+.btn-primary { background: #409eff; color: #fff; }
+.btn-primary:hover { background: #66b1ff; }
+.btn-success { background: #67c23a; color: #fff; }
+.btn-danger { background: #f56c6c; color: #fff; }
+.btn-warning { background: #e6a23c; color: #fff; }
+.btn-default { background: #f0f2f5; color: #606266; }
+.btn-sm { padding: 5px 12px; font-size: 12px; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 12px; }
+.badge-hot { background: #fef0f0; color: #f56c6c; }
+.badge-new { background: #ecf5ff; color: #409eff; }
+.card { background: #fff; border: 1px solid #ebeef5; border-radius: 8px; padding: 16px; transition: .3s; }
+.card:hover { box-shadow: 0 4px 12px rgba(0,0,0,.1); transform: translateY(-2px); }
+
+/* Grid */
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+/* ===== Page 1: Home ===== */
+.banner { background: linear-gradient(135deg, #ffecd2, #fcb69f); border-radius: 12px; padding: 40px; text-align: center; margin-bottom: 24px; }
+.banner h1 { font-size: 32px; color: #8b4513; margin-bottom: 8px; }
+.banner p { font-size: 16px; color: #a0522d; }
+.nav-cats { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+.nav-cat { padding: 8px 16px; background: #ecf5ff; border-radius: 20px; color: #409eff; cursor: pointer; font-size: 14px; transition: .2s; }
+.nav-cat:hover, .nav-cat.active { background: #409eff; color: #fff; }
+.product-card .thumb { height: 180px; background: linear-gradient(135deg, #fbc2eb, #a6c1ee); border-radius: 6px; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; font-size: 48px; }
+.product-card .name { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.product-card .price { color: #f56c6c; font-size: 18px; font-weight: bold; }
+.product-card .price::before { content: "\ffe5"; font-size: 14px; }
+.product-card .tags { margin: 6px 0; }
+
+/* ===== Page 2: Product List ===== */
+.filter-bar { display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+.filter-bar select, .filter-bar input { padding: 8px 12px; border: 1px solid #dcdfe6; border-radius: 4px; font-size: 14px; }
+.product-row { display: flex; gap: 16px; padding: 16px; border: 1px solid #ebeef5; border-radius: 8px; margin-bottom: 12px; transition: .2s; }
+.product-row:hover { box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+.product-row .thumb { width: 120px; height: 120px; background: linear-gradient(135deg, #ffecd2, #fcb69f); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 36px; flex-shrink: 0; }
+.product-row .info { flex: 1; }
+.product-row .info h4 { font-size: 16px; margin-bottom: 4px; }
+.product-row .info .desc { color: #909399; font-size: 13px; margin-bottom: 8px; }
+.product-row .info .price { color: #f56c6c; font-size: 18px; font-weight: bold; }
+
+/* ===== Page 3: Product Detail ===== */
+.detail-layout { display: flex; gap: 24px; }
+.detail-gallery { width: 400px; }
+.detail-gallery .main-img { width: 400px; height: 400px; background: linear-gradient(135deg, #fbc2eb, #a6c1ee); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 80px; margin-bottom: 12px; }
+.detail-gallery .thumbs { display: flex; gap: 8px; }
+.detail-gallery .thumbs div { width: 72px; height: 72px; background: linear-gradient(135deg, #ffecd2, #fcb69f); border-radius: 4px; border: 2px solid transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+.detail-gallery .thumbs div.active { border-color: #409eff; }
+.detail-info { flex: 1; }
+.detail-info h2 { font-size: 24px; margin-bottom: 12px; }
+.detail-info .price-box { background: #fef0f0; padding: 12px 16px; border-radius: 6px; margin-bottom: 16px; }
+.detail-info .price-box .current { font-size: 28px; color: #f56c6c; font-weight: bold; }
+.detail-info .specs { margin-bottom: 16px; }
+.detail-info .specs span { display: inline-block; padding: 6px 14px; border: 1px solid #dcdfe6; border-radius: 4px; margin: 0 8px 8px 0; cursor: pointer; font-size: 13px; }
+.detail-info .specs span.active { border-color: #409eff; color: #409eff; background: #ecf5ff; }
+.detail-info .actions { margin-top: 24px; display: flex; gap: 12px; }
+
+/* ===== Page 4: DIY ===== */
+.diy-layout { display: flex; gap: 16px; height: 550px; }
+.diy-sidebar { width: 240px; border: 1px solid #ebeef5; border-radius: 8px; display: flex; flex-direction: column; }
+.diy-tabs { display: flex; border-bottom: 1px solid #ebeef5; }
+.diy-tab { flex: 1; padding: 10px; text-align: center; cursor: pointer; font-size: 13px; background: #fafafa; border: none; }
+.diy-tab.active { background: #fff; color: #409eff; border-bottom: 2px solid #409eff; }
+.diy-materials { flex: 1; padding: 12px; overflow-y: auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.diy-item { height: 80px; background: linear-gradient(135deg, #fef9ef, #fbc2eb); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 28px; cursor: grab; border: 1px solid #ebeef5; }
+.diy-canvas { flex: 1; border: 2px dashed #dcdfe6; border-radius: 8px; background: #fafafa; position: relative; display: flex; align-items: center; justify-content: center; }
+.diy-canvas::after { content: "\5c06\7d20\6750\62d6\62fd\5230\6b64\5904"; color: #c0c4cc; font-size: 16px; }
+.diy-toolbar { margin-bottom: 12px; display: flex; gap: 8px; }
+
+/* ===== Page 5: Cart ===== */
+.cart-table { width: 100%; border-collapse: collapse; }
+.cart-table th { background: #f5f7fa; padding: 12px; text-align: left; font-weight: 600; border-bottom: 2px solid #ebeef5; }
+.cart-table td { padding: 16px 12px; border-bottom: 1px solid #ebeef5; vertical-align: middle; }
+.cart-table .item-thumb { width: 60px; height: 60px; background: linear-gradient(135deg, #ffecd2, #fcb69f); border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; font-size: 24px; }
+.cart-table .qty { width: 40px; text-align: center; border: 1px solid #dcdfe6; border-radius: 4px; padding: 4px; }
+.cart-footer { display: flex; justify-content: flex-end; align-items: center; gap: 16px; padding: 16px 0; margin-top: 16px; }
+.cart-footer .total { font-size: 20px; color: #f56c6c; font-weight: bold; }
+.cart-footer .total::before { content: "\5408\8ba1\uff1a\ffe5"; font-size: 14px; font-weight: normal; color: #606266; }
+
+/* ===== Page 6: Orders ===== */
+.order-tabs { display: flex; gap: 0; margin-bottom: 20px; }
+.order-tab { padding: 10px 20px; border: 1px solid #dcdfe6; background: #fff; cursor: pointer; font-size: 14px; }
+.order-tab:first-child { border-radius: 4px 0 0 4px; }
+.order-tab:last-child { border-radius: 0 4px 4px 0; }
+.order-tab.active { background: #409eff; color: #fff; border-color: #409eff; }
+.order-card { border: 1px solid #ebeef5; border-radius: 8px; padding: 16px; margin-bottom: 12px; }
+.order-card .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #ebeef5; }
+.order-card .order-no { color: #909399; font-size: 13px; }
+.order-card .order-status { font-weight: 600; }
+.order-card .status-paid { color: #409eff; }
+.order-card .status-shipped { color: #e6a23c; }
+.order-card .status-done { color: #67c23a; }
+.order-card .order-items { display: flex; gap: 12px; }
+.order-card .order-item { width: 60px; height: 60px; background: linear-gradient(135deg, #fbc2eb, #a6c1ee); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+
+/* ===== Page 7: Admin Dashboard ===== */
+.stat-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.stat-card { padding: 20px; border-radius: 8px; color: #fff; display: flex; flex-direction: column; gap: 8px; }
+.stat-card .stat-label { font-size: 14px; opacity: .85; }
+.stat-card .stat-value { font-size: 28px; font-weight: bold; }
+.stat-card:nth-child(1) { background: linear-gradient(135deg, #667eea, #764ba2); }
+.stat-card:nth-child(2) { background: linear-gradient(135deg, #f093fb, #f5576c); }
+.stat-card:nth-child(3) { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+.stat-card:nth-child(4) { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+.chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+.chart-box { border: 1px solid #ebeef5; border-radius: 8px; padding: 16px; }
+.chart-box h3 { font-size: 16px; margin-bottom: 12px; color: #303133; }
+.chart-placeholder { height: 200px; background: #f5f7fa; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #909399; font-size: 14px; flex-direction: column; gap: 4px; }
+.chart-bar { display: flex; align-items: flex-end; gap: 16px; height: 160px; padding: 0 20px; justify-content: space-around; }
+.chart-bar .bar-col { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.chart-bar .bar { width: 40px; border-radius: 4px 4px 0 0; transition: .3s; }
+.chart-bar .bar-label { font-size: 12px; color: #909399; }
+.chart-bar .bar:nth-child(1) { background: linear-gradient(to top, #409eff, #66b1ff); }
+.chart-bar .bar:nth-child(3) { background: linear-gradient(to top, #67c23a, #85ce61); }
+.chart-bar .bar:nth-child(5) { background: linear-gradient(to top, #e6a23c, #ebb563); }
+
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table th { background: #f5f7fa; padding: 10px 12px; text-align: left; font-weight: 600; border-bottom: 2px solid #ebeef5; font-size: 13px; }
+.data-table td { padding: 10px 12px; border-bottom: 1px solid #ebeef5; font-size: 13px; }
+
+.tip-box { background: #ecf5ff; border-left: 3px solid #409eff; padding: 12px 16px; border-radius: 0 4px 4px 0; margin-top: 20px; font-size: 13px; color: #606266; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1 style="text-align:center;padding:16px 0 8px;font-size:24px;color:#303133;">
+  <span style="color:#409eff;">&#x1f338;</span> Flower 花卉销售管理系统 - 前端页面效果图
+</h1>
+<p style="text-align:center;color:#909399;font-size:14px;margin-bottom:16px;">
+  纯静态排版展示 · 7个核心页面 · 点击Tab切换预览
+</p>
+
+<!-- Tabs -->
+<div class="tabs">
+  <button class="tab active" data-page="home">&#x1f3e0; 首页</button>
+  <button class="tab" data-page="products">&#x1f33a; 商品列表</button>
+  <button class="tab" data-page="detail">&#x1f490; 商品详情</button>
+  <button class="tab" data-page="diy">&#x1f3a8; DIY花束制作</button>
+  <button class="tab" data-page="cart">&#x1f6d2; 购物车</button>
+  <button class="tab" data-page="orders">&#x1f4e6; 我的订单</button>
+  <button class="tab" data-page="admin">&#x1f4ca; 管理员仪表盘</button>
+</div>
+
+<!-- ==================== PAGE 1: HOME ==================== -->
+<div class="page active" id="page-home">
+  <div class="banner">
+    <h1>&#x1f490; 鲜花物语 · 为爱绽放</h1>
+    <p>全场满199减30 | 新人首单9折 | 全国包邮</p>
+  </div>
+  <div class="nav-cats">
+    <span class="nav-cat active">全部</span>
+    <span class="nav-cat">&#x1f337; 玫瑰</span>
+    <span class="nav-cat">&#x1f33b; 向日葵</span>
+    <span class="nav-cat">&#x1f33c; 百合</span>
+    <span class="nav-cat">&#x1f338; 康乃馨</span>
+    <span class="nav-cat">&#x1f33f; 多肉盆栽</span>
+    <span class="nav-cat">&#x1f33e; 绿植</span>
+    <span class="nav-cat">&#x1f381; 礼盒套装</span>
+  </div>
+  <h3 style="margin-bottom:16px;color:#303133;">&#x1f31f; 热门推荐</h3>
+  <div class="grid-4">
+    <div class="card product-card">
+      <div class="thumb">&#x1f337;</div>
+      <div class="name">99朵红玫瑰花束</div>
+      <div class="tags"><span class="badge badge-hot">热卖</span></div>
+      <div class="price">299.00</div>
+    </div>
+    <div class="card product-card">
+      <div class="thumb">&#x1f490;</div>
+      <div class="name">浪漫粉玫瑰花盒</div>
+      <div class="tags"><span class="badge badge-new">新品</span></div>
+      <div class="price">199.00</div>
+    </div>
+    <div class="card product-card">
+      <div class="thumb">&#x1f33b;</div>
+      <div class="name">阳光向日葵花束</div>
+      <div class="tags"><span class="badge badge-hot">热卖</span></div>
+      <div class="price">168.00</div>
+    </div>
+    <div class="card product-card">
+      <div class="thumb">&#x1f33c;</div>
+      <div class="name">纯洁白百合花束</div>
+      <div class="tags"><span class="badge badge-new">新品</span></div>
+      <div class="price">258.00</div>
+    </div>
+  </div>
+
+  <h3 style="margin:24px 0 16px;color:#303133;">&#x1f389; 节日专题</h3>
+  <div class="grid-2">
+    <div class="card" style="background:linear-gradient(135deg,#fff0f5,#ffc0cb);text-align:center;padding:32px;">
+      <div style="font-size:36px;margin-bottom:8px;">&#x1f48c;</div>
+      <h4 style="color:#c0392b;">情人节限定</h4>
+      <p style="color:#666;">精选玫瑰礼盒 · 限时8折</p>
+      <span class="btn btn-primary btn-sm" style="margin-top:8px;">立即查看</span>
+    </div>
+    <div class="card" style="background:linear-gradient(135deg,#fff8e1,#ffe082);text-align:center;padding:32px;">
+      <div style="font-size:36px;margin-bottom:8px;">&#x1f31e;</div>
+      <h4 style="color:#e67e22;">夏日花语</h4>
+      <p style="color:#666;">向日葵专场 · 满减优惠</p>
+      <span class="btn btn-primary btn-sm" style="margin-top:8px;">立即查看</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE 2: PRODUCT LIST ==================== -->
+<div class="page" id="page-products">
+  <div class="header-bar"><h2>&#x1f33a; 商品列表</h2></div>
+  <div class="filter-bar">
+    <select><option>全部分类</option><option>玫瑰</option><option>向日葵</option><option>百合</option><option>康乃馨</option></select>
+    <select><option>默认排序</option><option>价格从低到高</option><option>价格从高到低</option><option>最新上架</option></select>
+    <select><option>节日标签</option><option>情人节</option><option>母亲节</option><option>教师节</option></select>
+    <input type="text" placeholder="搜索商品名称..." style="width:200px;">
+    <button class="btn btn-primary btn-sm">搜索</button>
+  </div>
+  <div class="product-row">
+    <div class="thumb">&#x1f337;</div>
+    <div class="info">
+      <h4>99朵红玫瑰花束 <span class="badge badge-hot">热卖</span></h4>
+      <p class="desc">精选厄瓜多尔大花玫瑰，直径10cm，配满天星和尤加利叶，适合情人节、纪念日</p>
+      <div class="price" style="display:inline;">299.00</div>
+      <span style="margin-left:12px;color:#909399;">库存: 128件</span>
+      <span style="margin-left:12px;color:#409eff;">已售 1,234件</span>
+    </div>
+  </div>
+  <div class="product-row">
+    <div class="thumb">&#x1f33b;</div>
+    <div class="info">
+      <h4>阳光向日葵花束 <span class="badge badge-new">新品</span></h4>
+      <p class="desc">云南直采新鲜向日葵，10支装，阳光活力，适合毕业季、探望亲友</p>
+      <div class="price" style="display:inline;">168.00</div>
+      <span style="margin-left:12px;color:#909399;">库存: 86件</span>
+    </div>
+  </div>
+  <div class="product-row">
+    <div class="thumb">&#x1f33c;</div>
+    <div class="info">
+      <h4>纯洁白百合花束</h4>
+      <p class="desc">白色东方百合6支，芳香浓郁，搭配绿色配叶，优雅大方</p>
+      <div class="price" style="display:inline;">258.00</div>
+      <span style="margin-left:12px;color:#909399;">库存: 52件</span>
+    </div>
+  </div>
+  <div class="product-row">
+    <div class="thumb">&#x1f338;</div>
+    <div class="info">
+      <h4>粉色康乃馨花束 <span class="badge badge-hot">母亲节</span></h4>
+      <p class="desc">粉色康乃馨20支装，搭配相思梅和蕾丝花，温馨感人</p>
+      <div class="price" style="display:inline;">188.00</div>
+      <span style="margin-left:12px;color:#909399;">库存: 200件</span>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:16px;color:#909399;">
+    <span class="btn btn-default btn-sm">上一页</span>
+    <span style="margin:0 12px;">第 1/5 页</span>
+    <span class="btn btn-default btn-sm">下一页</span>
+  </div>
+</div>
+
+<!-- ==================== PAGE 3: PRODUCT DETAIL ==================== -->
+<div class="page" id="page-detail">
+  <div class="header-bar"><h2>&#x1f490; 商品详情</h2></div>
+  <div class="detail-layout">
+    <div class="detail-gallery">
+      <div class="main-img">&#x1f337;</div>
+      <div class="thumbs">
+        <div class="active">&#x1f337;</div><div>&#x1f490;</div><div>&#x1f33a;</div><div>&#x1f4e6;</div><div>&#x1f3ae;</div>
+      </div>
+    </div>
+    <div class="detail-info">
+      <h2>99朵红玫瑰花束</h2>
+      <p style="color:#909399;margin-bottom:12px;">精选厄瓜多尔大花玫瑰，节日表白首选</p>
+      <div class="price-box">
+        <span style="color:#909399;">价格</span>
+        <span class="current">299.00</span>
+        <span style="color:#c0c4cc;text-decoration:line-through;margin-left:8px;">399.00</span>
+      </div>
+      <div class="specs">
+        <p style="margin-bottom:8px;font-weight:600;">规格选择：</p>
+        <span class="active">9朵装 ¥99</span>
+        <span>33朵装 ¥199</span>
+        <span>99朵装 ¥299</span>
+      </div>
+      <div class="specs">
+        <p style="margin-bottom:8px;font-weight:600;">配送方式：</p>
+        <span class="active">同城速递</span>
+        <span>快递配送</span>
+        <span>到店自取</span>
+      </div>
+      <div class="actions">
+        <button class="btn btn-primary" style="padding:12px 32px;font-size:16px;">加入购物车</button>
+        <button class="btn btn-warning" style="padding:12px 32px;font-size:16px;">立即购买</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE 4: DIY ==================== -->
+<div class="page" id="page-diy">
+  <div class="header-bar"><h2>&#x1f3a8; DIY花束制作</h2></div>
+  <div class="diy-toolbar">
+    <button class="btn btn-default btn-sm">&#x21a9; 撤销</button>
+    <button class="btn btn-default btn-sm">&#x21aa; 重做</button>
+    <button class="btn btn-success btn-sm">&#x1f3b2; 一键推荐</button>
+    <button class="btn btn-primary btn-sm">&#x1f4be; 保存作品</button>
+    <select style="margin-left:auto;padding:6px 12px;border-radius:4px;border:1px solid #dcdfe6;">
+      <option>经典白色包装</option><option>牛皮纸包装</option><option>粉色爱心包装</option><option>透明玻璃纸</option>
+    </select>
+  </div>
+  <div class="diy-layout">
+    <div class="diy-sidebar">
+      <div class="diy-tabs">
+        <button class="diy-tab active">&#x1f33a; 花材</button>
+        <button class="diy-tab">&#x1f380; 丝带</button>
+        <button class="diy-tab">&#x1f48c; 贺卡</button>
+        <button class="diy-tab">&#x2728; 灯串</button>
+      </div>
+      <div class="diy-materials">
+        <div class="diy-item">&#x1f337;</div>
+        <div class="diy-item">&#x1f33b;</div>
+        <div class="diy-item">&#x1f33c;</div>
+        <div class="diy-item">&#x1f338;</div>
+        <div class="diy-item">&#x1f490;</div>
+        <div class="diy-item">&#x1f33a;</div>
+        <div class="diy-item">&#x1f33f;</div>
+        <div class="diy-item">&#x1f33e;</div>
+      </div>
+    </div>
+    <div class="diy-canvas"></div>
+  </div>
+</div>
+
+<!-- ==================== PAGE 5: CART ==================== -->
+<div class="page" id="page-cart">
+  <div class="header-bar"><h2>&#x1f6d2; 购物车</h2><span style="color:#909399;">共 3 件商品</span></div>
+  <table class="cart-table">
+    <thead><tr><th style="width:40px;"><input type="checkbox" checked></th><th>商品</th><th>单价</th><th>数量</th><th>小计</th><th>操作</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><input type="checkbox" checked></td>
+        <td><span class="item-thumb">&#x1f337;</span> 99朵红玫瑰花束 <span class="badge badge-hot">热卖</span></td>
+        <td>299.00</td>
+        <td><input type="number" class="qty" value="1" min="1"></td>
+        <td style="color:#f56c6c;font-weight:bold;">299.00</td>
+        <td><button class="btn btn-danger btn-sm">删除</button></td>
+      </tr>
+      <tr>
+        <td><input type="checkbox" checked></td>
+        <td><span class="item-thumb">&#x1f33b;</span> 阳光向日葵花束</td>
+        <td>168.00</td>
+        <td><input type="number" class="qty" value="2" min="1"></td>
+        <td style="color:#f56c6c;font-weight:bold;">336.00</td>
+        <td><button class="btn btn-danger btn-sm">删除</button></td>
+      </tr>
+      <tr>
+        <td><input type="checkbox"></td>
+        <td><span class="item-thumb">&#x1f33c;</span> 纯洁白百合花束</td>
+        <td>258.00</td>
+        <td><input type="number" class="qty" value="1" min="1"></td>
+        <td style="color:#f56c6c;font-weight:bold;">258.00</td>
+        <td><button class="btn btn-danger btn-sm">删除</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="cart-footer">
+    <span style="color:#909399;">已选 <b>2</b> 件商品</span>
+    <span class="total">635.00</span>
+    <button class="btn btn-primary" style="padding:12px 40px;font-size:16px;">去结算</button>
+  </div>
+</div>
+
+<!-- ==================== PAGE 6: ORDERS ==================== -->
+<div class="page" id="page-orders">
+  <div class="header-bar"><h2>&#x1f4e6; 我的订单</h2></div>
+  <div class="order-tabs">
+    <button class="order-tab active">全部</button>
+    <button class="order-tab">待付款</button>
+    <button class="order-tab">待发货</button>
+    <button class="order-tab">运输中</button>
+    <button class="order-tab">已完成</button>
+  </div>
+
+  <div class="order-card">
+    <div class="order-header">
+      <div><span class="order-no">订单号: 20240604152030</span><span style="margin-left:16px;color:#909399;">2026-06-04 15:20</span></div>
+      <span class="order-status status-done">&#x2705; 已完成</span>
+    </div>
+    <div class="order-items">
+      <div class="order-item">&#x1f337;</div>
+      <div class="order-item">&#x1f33b;</div>
+    </div>
+    <div style="text-align:right;margin-top:8px;font-weight:bold;">合计: 467.00</div>
+  </div>
+
+  <div class="order-card">
+    <div class="order-header">
+      <div><span class="order-no">订单号: 20240603213045</span><span style="margin-left:16px;color:#909399;">2026-06-03 21:30</span></div>
+      <span class="order-status status-shipped">&#x1f69a; 运输中</span>
+    </div>
+    <div class="order-items">
+      <div class="order-item">&#x1f33a;</div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+      <span style="color:#409eff;font-size:13px;">&#x1f4cd; 快递单号: SF1234567890 · 正在派送中</span>
+      <span style="font-weight:bold;">合计: 199.00</span>
+    </div>
+  </div>
+
+  <div class="order-card">
+    <div class="order-header">
+      <div><span class="order-no">订单号: 20240601100010</span><span style="margin-left:16px;color:#909399;">2026-06-01 10:00</span></div>
+      <span class="order-status status-paid" style="color:#f56c6c;">&#x23f3; 待发货</span>
+    </div>
+    <div class="order-items">
+      <div class="order-item">&#x1f33c;</div>
+      <div class="order-item">&#x1f338;</div>
+      <div class="order-item">&#x1f490;</div>
+    </div>
+    <div style="text-align:right;margin-top:8px;font-weight:bold;">合计: 545.00</div>
+  </div>
+</div>
+
+<!-- ==================== PAGE 7: ADMIN DASHBOARD ==================== -->
+<div class="page" id="page-admin">
+  <div class="header-bar"><h2>&#x1f4ca; 管理员数据仪表盘</h2><span style="color:#909399;">最后更新: 2026-06-04 23:00</span></div>
+
+  <div class="stat-cards">
+    <div class="stat-card">
+      <div class="stat-label">&#x1f4e6; 今日订单数</div>
+      <div class="stat-value">128</div>
+      <div style="font-size:12px;">较昨日 &#x2191; 12.3%</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">&#x1f4b0; 今日销售额</div>
+      <div class="stat-value">28,960</div>
+      <div style="font-size:12px;">较昨日 &#x2191; 8.5%</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">&#x1f465; 新增用户</div>
+      <div class="stat-value">36</div>
+      <div style="font-size:12px;">较昨日 &#x2191; 15.7%</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">&#x1f33a; 在售商品</div>
+      <div class="stat-value">256</div>
+      <div style="font-size:12px;">库存预警 3 件</div>
+    </div>
+  </div>
+
+  <div class="chart-row">
+    <div class="chart-box">
+      <h3>&#x1f4c8; 近7天销售额趋势</h3>
+      <div class="chart-bar">
+        <div class="bar-col"><div class="bar" style="height:80px;"></div><span class="bar-label">5/29</span></div>
+        <div class="bar-col"><div class="bar" style="height:95px;"></div><span class="bar-label">5/30</span></div>
+        <div class="bar-col"><div class="bar" style="height:110px;"></div><span class="bar-label">5/31</span></div>
+        <div class="bar-col"><div class="bar" style="height:75px;"></div><span class="bar-label">6/01</span></div>
+        <div class="bar-col"><div class="bar" style="height:130px;"></div><span class="bar-label">6/02</span></div>
+        <div class="bar-col"><div class="bar" style="height:140px;"></div><span class="bar-label">6/03</span></div>
+        <div class="bar-col"><div class="bar" style="height:128px;"></div><span class="bar-label">6/04</span></div>
+      </div>
+    </div>
+    <div class="chart-box">
+      <h3>&#x1f4cb; 订单状态分布</h3>
+      <div class="chart-placeholder">
+        <p>&#x1f7e2; 已完成: 45件  |  &#x1f7e1; 运输中: 28件  |  &#x1f534; 待处理: 15件  |  &#x26aa; 已取消: 8件</p>
+        <p style="margin-top:8px;color:#c0c4cc;">（图表占位区域，实际使用 ECharts 渲染）</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-bottom:12px;color:#303133;">&#x1f4cb; 最近订单</h3>
+  <table class="data-table">
+    <thead><tr><th>订单号</th><th>用户</th><th>金额</th><th>状态</th><th>时间</th><th>操作</th></tr></thead>
+    <tbody>
+      <tr><td>20240604152030</td><td>张三</td><td style="color:#f56c6c;">299.00</td><td><span class="badge badge-new" style="background:#f0f9eb;color:#67c23a;">已完成</span></td><td>15:20</td><td><button class="btn btn-default btn-sm">详情</button></td></tr>
+      <tr><td>20240604151020</td><td>李四</td><td style="color:#f56c6c;">168.00</td><td><span class="badge badge-hot">待发货</span></td><td>15:10</td><td><button class="btn btn-default btn-sm">详情</button></td></tr>
+      <tr><td>20240604145005</td><td>王五</td><td style="color:#f56c6c;">545.00</td><td><span style="background:#fdf6ec;color:#e6a23c;padding:2px 8px;border-radius:10px;font-size:12px;">运输中</span></td><td>14:50</td><td><button class="btn btn-default btn-sm">详情</button></td></tr>
+    </tbody>
+  </table>
+
+  <div class="tip-box">
+    &#x1f4a1; <b>提示：</b>此页面为管理员数据仪表盘效果图，实际系统将集成 ECharts 图表库实现数据可视化，支持实时刷新和日期范围筛选。
+  </div>
+</div>
+
+<!-- Footer -->
+<div style="text-align:center;padding:24px;color:#c0c4cc;font-size:12px;margin-top:16px;">
+  Flower 花卉销售管理系统 · Vue 3 + Element Plus · 前端效果图 · 纯静态排版
+</div>
+
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    this.classList.add('active');
+    document.getElementById('page-' + this.dataset.page).classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>
