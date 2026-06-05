@@ -5,11 +5,11 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum DeliveryType {
-    EXPRESS("express", "快递配送"),
-    LOCAL("local", "同城速递"),
-    SELF("self", "到店自取");
+public enum DeliveryType implements BasicEnum {
+    EXPRESS(1, "快递配送"),
+    LOCAL(2, "同城速递"),
+    SELF(3, "到店自取");
 
-    private final String code;
-    private final String desc;
+    private final int code;
+    private final String msg;
 }

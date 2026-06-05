@@ -5,10 +5,10 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum CommonStatus {
+public enum CommonStatus implements BasicEnum {
     ENABLED(1, "启用/上架"),
     DISABLED(0, "禁用/下架");
 
     private final int code;
-    private final String desc;
+    private final String msg;
 }

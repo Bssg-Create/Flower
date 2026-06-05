@@ -5,12 +5,12 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum LogisticsStatus {
+public enum LogisticsStatus implements BasicEnum {
     PENDING_COLLECT(1, "待揽收"),
     IN_TRANSIT(2, "运输中"),
     DELIVERING(3, "派送中"),
     SIGNED(4, "已签收");
 
     private final int code;
-    private final String desc;
+    private final String msg;
 }
