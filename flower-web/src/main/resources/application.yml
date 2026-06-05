@@ -1,0 +1,16 @@
+# ============================================================
+# Flower 花卉销售管理系统 - 主配置
+# ============================================================
+server:
+  port: 8080
+
+spring:
+  application:
+    name: flower
+  profiles:
+    active: dev
+    include:
+      - mybatis
+      - jwt
+      - redis
+      - swagger

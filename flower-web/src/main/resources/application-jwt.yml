@@ -1,0 +1,8 @@
+# ============================================================
+# JWT 配置
+# ============================================================
+jwt:
+  secret: Flower-Secret-Key-2026-Flower-Sale-Management-System
+  expiration: 86400000  # 24小时（毫秒）
+  header: Authorization
+  prefix: "Bearer "

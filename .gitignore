@@ -2,3 +2,10 @@
 ~$*.docx
 ~$*.doc
 *.tmp
+
+# Maven
+.m2/
+target/
+*.class
+*.jar
+*.war
