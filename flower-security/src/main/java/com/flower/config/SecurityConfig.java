@@ -32,7 +32,7 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/user/login", "/api/user/register").permitAll()
+                .requestMatchers("/api/user/login", "/api/user/register").permitAll().requestMatchers("/", "/index.html", "/assets/**", "/login", "/products", "/product/**", "/diy", "/cart", "/orders", "/admin/**", "/favicon.ico").permitAll()
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .anyRequest().authenticated()
             )
