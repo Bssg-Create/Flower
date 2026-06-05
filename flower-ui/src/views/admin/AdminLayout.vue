@@ -7,7 +7,9 @@
         <el-menu-item index="/admin/products">商品管理</el-menu-item>
         <el-menu-item index="/admin/orders">订单管理</el-menu-item>
       </el-menu>
-      <div style="position:absolute;bottom:20px;width:100%;text-align:center;"><el-button type="text" style="color:#bfcbd9;" @click="">返回首页</el-button></div>
+      <div style="position:absolute;bottom:20px;width:100%;text-align:center;">
+        <el-button type="text" style="color:#bfcbd9;" @click="$router.push('/')">返回首页</el-button>
+      </div>
     </el-aside>
     <el-container><el-main><router-view/></el-main></el-container>
   </el-container>
