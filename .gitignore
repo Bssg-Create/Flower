@@ -1,12 +1,17 @@
-﻿# Word临时文件
-~$*.docx
-~$*.doc
-*.tmp
-
 # Maven
-.m2/
-target/
+# Word????
 *.class
 *.jar
+*.tmp
 *.war
+.m2/
+~$*.doc
+~$*.docx
+app.log
+classpath.txt
+java_args.txt
 node_modules/
+start.bat
+stderr.txt
+stdout.txt
+target/
