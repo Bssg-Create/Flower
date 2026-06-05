@@ -22,23 +22,34 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        String token = extractToken(request);
+        String uri = request.getRequestURI();
 
+        // Only process API requests
+        if (!uri.startsWith("/api/")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // Skip login and register
+        if (uri.equals("/api/user/login") || uri.equals("/api/user/register")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        String token = extractToken(request);
         if (StringUtils.hasText(token)) {
             try {
                 Claims claims = JwtUtil.parseJWT(token);
                 Long userId = claims.get("userId", Long.class);
                 String username = claims.get("username", String.class);
 
-                // Set user context
                 RequestHolder.setCurrentUserId(userId);
                 RequestHolder.setCurrentUsername(username);
 
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(username, null, Collections.emptyList());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            } catch (Exception e) {
-                // Token invalid, skip authentication
+                UsernamePasswordAuthenticationToken auth =
+                    new UsernamePasswordAuthenticationToken(username, null, Collections.emptyList());
+                SecurityContextHolder.getContext().setAuthentication(auth);
+            } catch (Exception ignored) {
             }
         }
 

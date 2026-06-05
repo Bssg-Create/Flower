@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -30,11 +31,25 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .csrf(AbstractHttpConfigurer::disable)
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/user/login", "/api/user/register").permitAll().requestMatchers("/", "/index.html", "/assets/**", "/login", "/products", "/product/**", "/diy", "/cart", "/orders", "/admin/**", "/favicon.ico").permitAll()
-                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                .anyRequest().authenticated()
+                .requestMatchers(
+                    new AntPathRequestMatcher("/api/user/login"),
+                    new AntPathRequestMatcher("/api/user/register")
+                ).permitAll()
+                .requestMatchers(
+                    new AntPathRequestMatcher("/v3/api-docs/**"),
+                    new AntPathRequestMatcher("/swagger-ui/**"),
+                    new AntPathRequestMatcher("/swagger-ui.html")
+                ).permitAll()
+                .requestMatchers(
+                    new AntPathRequestMatcher("/static/**"),
+                    new AntPathRequestMatcher("/assets/**"),
+                    new AntPathRequestMatcher("/index.html"),
+                    new AntPathRequestMatcher("/favicon.ico")
+                ).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/api/**")).authenticated()
+                .anyRequest().permitAll()
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
