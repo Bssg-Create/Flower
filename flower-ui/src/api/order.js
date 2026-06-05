@@ -1,0 +1,1 @@
+import r from './request';export const getOrders=()=>r.get('/orders');export const submitOrder=d=>r.post('/order/submit',d);export const payOrder=id=>r.post('/order/pay/'+id)

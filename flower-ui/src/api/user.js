@@ -1,0 +1,1 @@
+import r from './request';export const login=d=>r.post('/user/login',d);export const register=d=>r.post('/user/register',d)

@@ -1,0 +1,1 @@
+import r from './request';export const getMaterials=t=>r.get('/diy/materials',{params:{type:t}});export const getPackaging=()=>r.get('/diy/packaging');export const getWorks=()=>r.get('/diy/works');export const saveWorks=d=>r.post('/diy/works',d);export const deleteWorks=id=>r.delete('/diy/works/'+id)

@@ -1,0 +1,1 @@
+import r from './request';export const getProducts=p=>r.get('/products',{params:p});export const getProduct=id=>r.get('/product/'+id)

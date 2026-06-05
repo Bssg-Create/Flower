@@ -1,0 +1,1 @@
+import r from './request';export const getCart=()=>r.get('/cart');export const addToCart=d=>r.post('/cart/add',d);export const removeFromCart=id=>r.delete('/cart/'+id)
