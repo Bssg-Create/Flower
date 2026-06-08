@@ -1,6 +1,5 @@
 package com.flower.config;
 
-import com.flower.entity.Admin;
 import com.flower.entity.User;
 import com.flower.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -9,8 +8,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -18,11 +15,9 @@ public class DataInitializer implements CommandLineRunner {
 
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
-    private final com.flower.mapper.UserMapper userMapper;
 
     @Override
     public void run(String... args) {
-        // Create test user if none exists
         long userCount = userService.count();
         if (userCount == 0) {
             User user = new User();

@@ -1,5 +1,6 @@
 package com.flower.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,9 +22,18 @@ public class Admin {
     private String role;
     private Integer status;
 
+    @TableField("created_at")
     private LocalDateTime createTime;
+
+    @TableField("updated_at")
     private LocalDateTime updateTime;
+
+    @TableField(exist = false)
     private Long createBy;
+
+    @TableField(exist = false)
     private Long updateBy;
+
+    @TableField(exist = false)
     private String remark;
 }
