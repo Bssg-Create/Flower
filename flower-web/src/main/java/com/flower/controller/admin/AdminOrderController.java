@@ -28,7 +28,7 @@ public class AdminOrderController {
     public ResponseResult<PageBean<Order>> list(
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer size,
-            @RequestParam(required = false) Integer status) {
+            @RequestParam(name = "status", required = false) Integer status) {
         Page<Order> p;
         if (status != null) {
             p = orderService.page(new Page<>(page, size),
@@ -43,7 +43,7 @@ public class AdminOrderController {
     }
 
     @PutMapping("/{id}/status")
-    public ResponseResult<Void> updateStatus(@PathVariable Long id, @RequestParam Integer status) {
+    public ResponseResult<Void> updateStatus(@PathVariable Long id, @RequestParam(name = "status") Integer status) {
         Order order = orderService.getById(id);
         if (order != null) {
             order.setStatus(status);

@@ -27,7 +27,10 @@ public class AdminRole {
     private LocalDateTime createTime;
     @TableField("updated_at")
     private LocalDateTime updateTime;
+    @TableField(exist = false)
     private Long createBy;
+    @TableField(exist = false)
     private Long updateBy;
+    @TableField(exist = false)
     private String remark;
 }

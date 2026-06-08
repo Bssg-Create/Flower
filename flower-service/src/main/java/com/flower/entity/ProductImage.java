@@ -26,6 +26,8 @@ public class ProductImage {
 
     @TableField("created_at")
     private LocalDateTime createTime;
+    @TableField(exist = false)
     private Long createBy;
+    @TableField(exist = false)
     private String remark;
 }

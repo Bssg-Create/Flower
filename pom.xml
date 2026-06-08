@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
@@ -134,6 +134,94 @@
                     </excludes>
                 </configuration>
             </plugin>
-        </plugins>
+        <!-- 保留方法参数名，Spring MVC 需要 -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <parameters>true</parameters>
+            </configuration>
+        </plugin>
+        <!-- 保留方法参数名，Spring MVC 需要 -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <parameters>true</parameters>
+            </configuration>
+        </plugin>
+
+        <!-- 保留方法参数名，Spring MVC 需要 -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <parameters>true</parameters>
+            </configuration>
+        </plugin> 
+        <!-- 保留方法参数名，Spring MVC 需要 -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <parameters>true</parameters>
+            </configuration>
+        </plugin> 
+        <!-- 保留方法参数名，Spring MVC 需要 -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <parameters>true</parameters>
+            </configuration>
+        </plugin> 
+        <!-- 保留方法参数名，Spring MVC 需要 -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <parameters>true</parameters>
+            </configuration>
+        </plugin> 
+        <!-- 保留方法参数名，Spring MVC 需要 -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <parameters>true</parameters>
+            </configuration>
+        </plugin> 
+        <!-- 保留方法参数名，Spring MVC 需要 -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <parameters>true</parameters>
+            </configuration>
+        </plugin> 
+        <!-- 保留方法参数名，Spring MVC 需要 -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <parameters>true</parameters>
+            </configuration>
+        </plugin> 
+        <!-- 保留方法参数名，Spring MVC 需要 -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <parameters>true</parameters>
+            </configuration>
+        </plugin> 
+        <!-- 保留方法参数名，Spring MVC 需要 -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <parameters>true</parameters>
+            </configuration>
+        </plugin></plugins>
     </build>
 </project>

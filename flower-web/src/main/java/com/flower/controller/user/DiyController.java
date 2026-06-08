@@ -33,7 +33,7 @@ public class DiyController {
     private final DiyWorkItemService diyWorkItemService;
 
     @GetMapping("/materials")
-    public ResponseResult<List<DiyMaterial>> materials(@RequestParam(required = false) String type) {
+    public ResponseResult<List<DiyMaterial>> materials(@RequestParam(name = "type", required = false) String type) {
         LambdaQueryWrapper<DiyMaterial> wrapper = new LambdaQueryWrapper<>();
         if (type != null) {
             wrapper.eq(DiyMaterial::getType, type);
