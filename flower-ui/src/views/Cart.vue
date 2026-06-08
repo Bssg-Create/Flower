@@ -2,7 +2,7 @@
   <el-container>
     <el-header style="background:#fff;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 4px rgba(0,0,0,.08);padding:0 20px;">
       <h3 style="color:#409eff;cursor:pointer;" @click="$router.push('/')">Flower</h3>
-      <div><el-button type="text" @click="$router.push('/products')">继续购物</el-button><el-button type="text" @click="$router.push('/orders')">我的订单</el-button></div>
+      <div><el-button link @click="$router.push('/products')">继续购物</el-button><el-button link @click="$router.push('/orders')">我的订单</el-button></div>
     </el-header>
     <el-main>
       <el-table :data="items" v-if="items.length">
@@ -28,9 +28,7 @@ import { ElMessage } from 'element-plus'
 const router = useRouter()
 const items = ref([])
 const total = computed(() => items.value.reduce((s,i) => s + (i.price||0)*(i.quantity||0), 0))
-
 onMounted(async () => { try { const r = await getCart(); items.value = r.data || [] } catch(e) {} })
-
 const remove = async (id) => { try { await removeFromCart(id); items.value = items.value.filter(i => i.id !== id) } catch(e) {} }
 const checkout = () => ElMessage.success('订单已提交') && router.push('/orders')
 </script>

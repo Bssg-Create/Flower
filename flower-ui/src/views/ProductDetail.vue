@@ -1,6 +1,6 @@
 <template>
   <div style="max-width:1200px;margin:0 auto;padding:24px;">
-    <el-button type="text" @click="$router.back()">返回</el-button>
+    <el-button link @click="$router.back()">返回</el-button>
     <el-row :gutter="24" style="margin-top:16px;">
       <el-col :span="10"><div style="width:100%;height:400px;background:linear-gradient(135deg,#fbc2eb,#a6c1ee);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:80px;">Flower</div></el-col>
       <el-col :span="14">
